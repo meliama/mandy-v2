@@ -16,15 +16,11 @@ require_once('fcs_mandy.php');
 
 $esPost=$_SERVER["REQUEST_METHOD"]=="POST";
 $email = '';
-$password = '';
-// $question='';
 $answer='';
 
 if ($esPost){
 
       $email = $_POST["email"];
-      $password = $_POST["password"];
-      // $question = $_POST["question"];
       $answer=$_POST["answer"];
 
       $erroresTotales=validacionRecuperarPass($_POST);
@@ -52,7 +48,7 @@ if ($esPost){
                    //la funcion comprobarAnswer me devuelve al usuario
                    $usuario = comprobarUsuario($_POST["answer"]);
                    header('Location:test.php');
-                  
+
 
 
 
@@ -159,18 +155,11 @@ if ($esPost){
          <input type="text" class="email" name="email" placeholder="Correo electrónico"value="<?=$email?>" >
          <?php if (!empty($erroresTotales['email'])): ?>
              <span class="error"><span class="ion-close">
-           <? echo $erroresTotales['email']?>
+           <?=$erroresTotales['email'];?>
          </span>
          </span>
        <?php endif; ?><br>
 
-         <input type="password" class="password" name="password" placeholder="Contraseña"value="<?=$password?>" >
-         <?php if (!empty($erroresTotales['password'])): ?>
-             <span class="error"><span class="ion-close">
-           <? echo $erroresTotales['password']?>
-         </span>
-         </span>
-       <?php endif; ?><br>
        <h3 style="font-size:20px;"><?php echo"PREGUNTA DEL JSON";  ?></h3>
 
        <br>

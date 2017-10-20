@@ -239,7 +239,6 @@ function validacionRecuperarPass($info){
   $email=$info['email'];
 
   $answer = trim($info['answer']);
-  $password = trim($info['password']);
 
 
 
@@ -261,18 +260,6 @@ function validacionRecuperarPass($info){
        $errores['answer']='Respuesta incorrecta.';
     }
   }
-
-  if ($password == '') {
-    $errores['password'] = 'Completá tu contraseña';
-  }else{
-    $elUsuario=comprobarEmail($email);
-    $password=$elUsuario['password'];
-    $password_ingresada=$info['password'];
-    if( password_verify($password_ingresada, $password) == false) {
-       $errores['password']='Contraseña incorrecta.';
-    }
-  }
-
 
   return $errores;
 }
