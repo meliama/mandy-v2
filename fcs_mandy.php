@@ -230,15 +230,28 @@ function comprobarAnswer($answer){
  return false;
 }
 
+function validarRespuesta($info){
+    $answer = trim($info['answer']);
+    $errores = [];
 
-function validacionRecuperarPass($info){
+    if($answer==''){
+      $errores['answer']='Escribí una respuesta';
+    }else{
+      $elUsuario=comprobarAnswer($answer);
+      $answer_guardada=$elUsuario['answer'];
+      $answer_ingresada=$info['answer'];
+      if( $answer_ingresada !== $answer_guardada) {
+         $errores['answer']='Respuesta incorrecta.';
+      }
+    }
+}
+
+function validarEmail($info){
 
   $errores = [];
 
   $email_limpio = trim($info['email']);
   $email=$info['email'];
-
-  $answer = trim($info['answer']);
 
 
 
@@ -250,16 +263,8 @@ function validacionRecuperarPass($info){
      $errores['email']='E-mail incorrecto.';
   }
 
-  if($answer==''){
-    $errores['answer']='Escribí una respuesta';
-  }else{
-    $elUsuario=comprobarAnswer($answer);
-    $answer_guardada=$elUsuario['answer'];
-    $answer_ingresada=$info['answer'];
-    if( $answer_ingresada !== $answer_guardada) {
-       $errores['answer']='Respuesta incorrecta.';
-    }
-  }
+
+
 
   return $errores;
 }
