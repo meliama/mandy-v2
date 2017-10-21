@@ -13,53 +13,53 @@ echo "<br>";
 echo "<br>";
 echo "<br>";
 require_once('fcs_mandy.php');
-
 $esPost=$_SERVER["REQUEST_METHOD"]=="POST";
 $email = '';
-$password = '';
-// $question='';
 $answer='';
-
-if ($esPost){
-
+$questions = [
+  'q1'=>'¿Cuál es tu libro favorito?',
+  'q2'=>'¿Cuál es el nombre de tu mascota?',
+  'q3'=>'¿Cuál es tu artista favorito?',
+  'q4'=>'¿Cuál es tu vanguardia favorita?',
+  'q5'=>'¿Cuál es tu película favorita?',
+  'q6'=>'¿Cuál es tu sueño?'
+];
+if ($_POST){
+  $erroresTotales = validarEmail($_POST);
+  if (!empty($_POST["email"])) {
+    $usuario = comprobarEmail($_POST["email"]);
+    var_dump($usuario);
+  }
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
+  echo "<br>";
       $email = $_POST["email"];
-      $password = $_POST["password"];
-      // $question = $_POST["question"];
-      $answer=$_POST["answer"];
-
-      $erroresTotales=validacionRecuperarPass($_POST);
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      echo "<br>";
-      var_dump($_POST);
-      echo "<br>";
-
-      var_dump($erroresTotales);
-      $noError=empty($erroresTotales);
-
-
-              if ($noError) {
-
-                   //la funcion comprobarAnswer me devuelve al usuario
-                   $usuario = comprobarUsuario($_POST["answer"]);
-                   header('Location:test.php');
-                  
-
-
-
-                }
-
+      // $answer=$_POST["answer"];
+      if (empty($erroresTotales)) {
+        $noError="";
+      }
+              //
+              // if ($noError) {
+              //
+              //      //la funcion comprobarAnswer me devuelve al usuario
+              //      $usuario = comprobarAnswer($_POST["answer"]);
+              //      header('Location:test.php');
+              //
+              //
+              //
+              //
+              //   }
             }
-
  ?>
 
 
@@ -159,31 +159,24 @@ if ($esPost){
          <input type="text" class="email" name="email" placeholder="Correo electrónico"value="<?=$email?>" >
          <?php if (!empty($erroresTotales['email'])): ?>
              <span class="error"><span class="ion-close">
-           <? echo $erroresTotales['email']?>
+           <?=$erroresTotales['email'];?>
          </span>
          </span>
        <?php endif; ?><br>
 
-         <input type="password" class="password" name="password" placeholder="Contraseña"value="<?=$password?>" >
-         <?php if (!empty($erroresTotales['password'])): ?>
-             <span class="error"><span class="ion-close">
-           <? echo $erroresTotales['password']?>
-         </span>
-         </span>
-       <?php endif; ?><br>
+       <?php if (isset($noError)): ?>
+         <!-- esto es lo que no anda -->
+        <?php $erroresAnswer = validarRespuesta($_POST['answer']); ?>
        <h3 style="font-size:20px;"><?php echo"PREGUNTA DEL JSON";  ?></h3>
+       <p><?=$questions[$usuario['question']] ?></p>
 
        <br>
        <input type="text" class="answer" name="answer" placeholder="Respuesta" value="">
-       <?php if (!empty($erroresTotales['answer'])): ?>
-         <span class="error"><span class="ion-close"> </span><?=$erroresTotales['answer'];?></span>
+       <?php if (!empty($erroresAnswer['answer'])): ?>
+         <span class="error"><span class="ion-close"> </span><?=$erroresAnswer['answer'];?></span>
        <?php endif; ?>
-
+     <?php endif; ?>
          <br>
-
-
-
-
 
          <button class="boton-ingresar" type="submit" name="boton">Enviar</button>
          <button class="boton-registrate" type="reset" name="button">Reset</button>
