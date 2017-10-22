@@ -1,21 +1,12 @@
 <?php
 session_start();
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
+
 require_once('fcs_mandy.php');
+
 $esPost=$_SERVER["REQUEST_METHOD"]=="POST";
 $email = '';
-$answer='';
+
+//lo usamos para luego imprimir la pregunta seleccionada abajo en el form
 $questions = [
   'q1'=>'¿Cuál es tu libro favorito?',
   'q2'=>'¿Cuál es el nombre de tu mascota?',
@@ -24,12 +15,17 @@ $questions = [
   'q5'=>'¿Cuál es tu película favorita?',
   'q6'=>'¿Cuál es tu sueño?'
 ];
-if ($_POST){
+
+if ($esPost){
+    $email=$_POST['email'];
+
+//validarEmail me verifica y anda bien
   $erroresTotales = validarEmail($_POST);
-  if (!empty($_POST["email"])) {
-    $usuario = comprobarEmail($_POST["email"]);
-    var_dump($usuario);
-  }
+//Me dice que si hay algo enviado por $email=$_POST['email'] ,me traiga al usuario
+//asi despues, podemos traer la $questions seleccionada por el user mas abajo
+  if (!empty($email)) {
+    $usuario = comprobarEmail($email);
+    }
   echo "<br>";
   echo "<br>";
   echo "<br>";
@@ -43,23 +39,20 @@ if ($_POST){
   echo "<br>";
   echo "<br>";
   echo "<br>";
-      $email = $_POST["email"];
-      // $answer=$_POST["answer"];
+
+      //Si no hay errores en el email, entonces le digo $noError
+      //Abajo, esta es la condicion para que entre al if y me imprima
+      //la $questions
       if (empty($erroresTotales)) {
+
         $noError="";
       }
-              //
-              // if ($noError) {
-              //
-              //      //la funcion comprobarAnswer me devuelve al usuario
-              //      $usuario = comprobarAnswer($_POST["answer"]);
-              //      header('Location:test.php');
-              //
-              //
-              //
-              //
-              //   }
-            }
+    }
+
+
+
+
+
  ?>
 
 
@@ -159,27 +152,38 @@ if ($_POST){
          <input type="text" class="email" name="email" placeholder="Correo electrónico"value="<?=$email?>" >
          <?php if (!empty($erroresTotales['email'])): ?>
              <span class="error"><span class="ion-close">
-           <?=$erroresTotales['email'];?>
+             <?=$erroresTotales['email'];?>
          </span>
          </span>
-       <?php endif; ?><br>
+       <?php endif; ?>
+       <button type="submit" name="button">buscar</button>
+     </form>
+
+    <form class="form-login-registro" action="" method="post">
 
        <?php if (isset($noError)): ?>
-         <!-- esto es lo que no anda -->
-        <?php $erroresAnswer = validarRespuesta($_POST['answer']); ?>
-       <h3 style="font-size:20px;"><?php echo"PREGUNTA DEL JSON";  ?></h3>
-       <p><?=$questions[$usuario['question']] ?></p>
+         <!-- ERROR: undefine index answer-->
+         <!-- Me tira NULL, con mucho sentido porque no lo envie por $_POST todavia -->
+        <?php $erroresAnswer = validarRespuesta($_POST['answer']);
+
+        var_dump($erroresAnswer);
+
+        ?>
+
+       <p style="font-size:20px;"><?=$questions[$usuario['question']] ?></p>
 
        <br>
        <input type="text" class="answer" name="answer" placeholder="Respuesta" value="">
        <?php if (!empty($erroresAnswer['answer'])): ?>
          <span class="error"><span class="ion-close"> </span><?=$erroresAnswer['answer'];?></span>
        <?php endif; ?>
+       <button class="boton-ingresar" type="submit" name="boton">Enviar</button>
+       <button class="boton-registrate" type="reset" name="button">Reset</button>
      <?php endif; ?>
+
          <br>
 
-         <button class="boton-ingresar" type="submit" name="boton">Enviar</button>
-         <button class="boton-registrate" type="reset" name="button">Reset</button>
+
 
        </form>
 

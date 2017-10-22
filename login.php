@@ -13,7 +13,7 @@ if (isset($_SESSION['idUsuario'])){
 $esPost=$_SERVER["REQUEST_METHOD"]=="POST";
 $remember='';
 if ($esPost){
-
+   
    $erroresTotales = validacionLogin($_POST);
 
    $noErrores= empty($erroresTotales);
@@ -32,22 +32,8 @@ if ($esPost){
 
 
         }
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-var_dump($_SESSION['idUsuario']);
-     // cuando tengo a este user, le digo bueno por fin y vas a donde sea
-      // header('location: index.html');
-      //Lo puse como lo puso Dani en su ejemplo asi lleva al user a su perfil
-      //header('location:perfil.php?id='.$usuario['id']);
+      header('location: index.html');
+
       exit;
   }
 }

@@ -16,7 +16,8 @@ $questions = [
   'q5'=>'¿Cuál es tu película favorita?',
   'q6'=>'¿Cuál es tu sueño?'
 ];
-// initialize
+
+
 $name = '';
 $surname = '';
 $username = '';
@@ -207,7 +208,7 @@ if ($esPost) {
     <?php endif; ?>
     <br>
 
-
+    <span>Foto de perfil:</span><br>
     <input type="file" name="img_profile" class="img_profile" >
     <?php if (!empty($erroresTotales['img_profile'])): ?>
       <span class="error"><span class="ion-close"> </span><?=$erroresTotales['img_profile'];?></span>

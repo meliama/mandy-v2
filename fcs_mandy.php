@@ -49,7 +49,7 @@ function validar($info,$file){
     $errores['answer']='Escribí una respuesta';
   }elseif (!filter_var($info['answer'],FILTER_VALIDATE_REGEXP,
   ["options"=>["regexp"=>"/^[a-zA-Z]+$/" ]])){
-    $errores['answer'] ='El campo debe contener solo letras';
+    $errores['answer'] ='Solo letras y sin espacios.';
   }elseif (strlen($info['answer'])<2) {
     $errores['answer'] ='La respuesta debe tener más de un carácter.';
   }
