@@ -96,9 +96,9 @@ function crearUsuario($info){
       'email'=>$info['email'],
       'question'=>$info['question'],
       'answer'=>$info['answer'],
-      'password'=>password_hash($info['password'],PASSWORD_DEFAULT)
+      'password'=>password_hash($info['password'],PASSWORD_DEFAULT),
+      'img_profile' => $info['img_profile']
     ];
-
     $usuarioGuardado = json_encode($usuarioAGuardar);
     file_put_contents('todosUsuarios.json',$usuarioGuardado.PHP_EOL, FILE_APPEND);
 }
@@ -157,25 +157,27 @@ function comprobarUsuario($username){
 
 function guardarImagen($img_profile,$errores){
     $img_profile= $_FILES[$img_profile];
-    $noError=$img_profile['error'] == UPLOAD_ERR_OK;
+    $noError=($img_profile['error'] == UPLOAD_ERR_OK);
     $posibles_errores['img_profile']=[
       'No aceptamos éste formato.Probá a guardarla como jpg,jpeg,png o gif',
-      'Error'.$img_profile['error'].'Intentá de nuevo.',
+      'Error ' .$img_profile['error'].' Intentá de nuevo.',
     ];
     if ($noError) {
-     $name=$img_profile['name'];
-     $ext=pathinfo($name,PATHINFO_EXTENSION);
-     $file=$img_profile['tmp_name'];
-     $ext_ok=($ext='jpg'or $ext='JPG' or $ext='JPEG' or $ext='jpeg' or $ext='png' or $ext='PNG' or $ext='gif' or $ext='GIF');
+     $name = $img_profile['name'];
+     $ext = pathinfo($name,PATHINFO_EXTENSION);
+     $file = $img_profile['tmp_name'];
+     $ext_ok=($ext=='jpg' or $ext=='JPG' or $ext=='JPEG' or $ext=='jpeg' or $ext=='png' or $ext=='PNG' or $ext=='gif' or $ext=='GIF');
+
      if ($ext_ok) {
        $name_file = $_POST['username'] . '.' .$ext;
-       $rutaDelArchivo=dirname(__FILE__) . '/images/img_profile/' . $name_file;
+       $_POST['img_profile'] = $_POST['username'] . '.' .$ext;
+        $rutaDelArchivo=dirname(__FILE__) . '/images/img_profile/' . $name_file;
        $img_to_upload=move_uploaded_file($file,$rutaDelArchivo);
      } else {
-       $errores['img_profile']=$posibles_errores['img_profile'][0];
+        $errores['img_profile']=$posibles_errores['img_profile'][0];
      }
    } else {
-     $errores['img_profile']=$posibles_errores['img_profile'][1];
+      $errores['img_profile']=$posibles_errores['img_profile'][1];
    }
    return $errores;
  }
@@ -192,7 +194,7 @@ function guardarImagen($img_profile,$errores){
     $formato_email=filter_var($info['email'], FILTER_VALIDATE_EMAIL);
     $email=$info['email'];
     $pass_limpia=trim($info['password']);
-// esto no se si ponerlo  no ...
+
    if ($pass_limpia == '') {
       $errores['email'] = 'Completá tu contraseña';
     }
@@ -210,7 +212,7 @@ function guardarImagen($img_profile,$errores){
     $password=$elUsuario['password'];
     $password_ingresada=$info['password'];
     if (password_verify($password_ingresada, $password) == false) {
-      //en realidad ya sabemos que es que la contrasena es incorrecta
+      
        $errores['email']=$posibles_errores['email'][3];
     }
 

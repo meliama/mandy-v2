@@ -508,7 +508,7 @@ h6 {
   .form-login-registro .olvidar {
     text-decoration: underline;
     color: black; }
-  .form-login-registro .boton-ingresar, .form-login-registro .boton-registrate, .form-login-registro .boton-registrarme {
+  .form-login-registro .boton-ingresar, .form-login-registro .boton-registrate, .form-login-registro .boton-registrarme, .boton-volver {
     background-color: #00b8d4;
     font-family: "Raleway", "Montserrat", sans-serif;
     font-weight: 700;
@@ -522,9 +522,10 @@ h6 {
     letter-spacing: 2px;
     cursor: pointer;
     display: block; }
-  .form-login-registro .boton-registrate {
+  .form-login-registro .boton-registrate, .boton-volver {
     background-color: #000;
     font-size: 1.2em !important; }
+
   .form-login-registro .error {
     color: #d10404;
     text-align: center;
