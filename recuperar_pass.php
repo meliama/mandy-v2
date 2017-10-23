@@ -5,6 +5,7 @@ require_once('fcs_mandy.php');
 
 $esPost=$_SERVER["REQUEST_METHOD"]=="POST";
 $email = '';
+$usuario = null;
 
 //lo usamos para luego imprimir la pregunta seleccionada abajo en el form
 $questions = [
@@ -17,41 +18,29 @@ $questions = [
 ];
 
 if ($esPost){
+  if(isset($_POST['email'])){
     $email=$_POST['email'];
+    //validarEmail me verifica y anda bien
+      $erroresTotales = validarEmail($_POST);
+    //Me dice que si hay algo enviado por $email=$_POST['email'] ,me traiga al usuario
+    //asi despues, podemos traer la $questions seleccionada por el user mas abajo
+      if (!empty($email)) {
+        $usuario = comprobarEmail($email);
 
-//validarEmail me verifica y anda bien
-  $erroresTotales = validarEmail($_POST);
-//Me dice que si hay algo enviado por $email=$_POST['email'] ,me traiga al usuario
-//asi despues, podemos traer la $questions seleccionada por el user mas abajo
-  if (!empty($email)) {
-    $usuario = comprobarEmail($email);
-    }
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-
-      //Si no hay errores en el email, entonces le digo $noError
-      //Abajo, esta es la condicion para que entre al if y me imprima
-      //la $questions
-      if (empty($erroresTotales)) {
-
-        $noError="";
       }
     }
 
+    if(isset($_POST['answer'])){
 
+      $erroresAnswer = validarRespuesta($_POST['answer']);
+      if (!empty($_POST['answer'])) {
+        $usuario = comprobarAnswer($_POST['answer']);
 
+      }
+    header('Location:pass_actualizada.php');
+    }
 
+}
 
  ?>
 
@@ -161,14 +150,8 @@ if ($esPost){
 
     <form class="form-login-registro" action="" method="post">
 
-       <?php if (isset($noError)): ?>
-         <!-- ERROR: undefine index answer-->
-         <!-- Me tira NULL, con mucho sentido porque no lo envie por $_POST todavia -->
-        <?php $erroresAnswer = validarRespuesta($_POST['answer']);
+       <?php if ($usuario): ?>
 
-        var_dump($erroresAnswer);
-
-        ?>
 
        <p style="font-size:20px;"><?=$questions[$usuario['question']] ?></p>
 
@@ -179,6 +162,7 @@ if ($esPost){
        <?php endif; ?>
        <button class="boton-ingresar" type="submit" name="boton">Enviar</button>
        <button class="boton-registrate" type="reset" name="button">Reset</button>
+
      <?php endif; ?>
 
          <br>
