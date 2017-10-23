@@ -13,7 +13,7 @@ if (isset($_SESSION['idUsuario'])){
 $esPost=$_SERVER["REQUEST_METHOD"]=="POST";
 $remember='';
 if ($esPost){
-
+   
    $erroresTotales = validacionLogin($_POST);
 
    $noErrores= empty($erroresTotales);
@@ -32,7 +32,10 @@ if ($esPost){
 
 
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1439c4e37e564dbdec9941417faee5972872c7bb
       header('location: index.html');
 
       exit;
